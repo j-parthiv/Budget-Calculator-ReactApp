@@ -27,8 +27,15 @@ function App() {
  const handleAmount = e =>{
   setAmount(e.target.value);
  }
- const hadleSubmit = e =>{
+ const handleSubmit = e =>{
   e.preventDefault();
+  if(charge !== " " && amount > 0){
+    const singleExpense = {id: uuidv4(), charge, amount};
+    setExpenses([...expenses, singleExpense]);
+    console.log(expenses);
+  }else{
+    // handle alert called
+  }
  }
 
   return (
@@ -36,7 +43,7 @@ function App() {
       <Alert />
       <h1>budget calculator</h1>
       <main className="App">
-        <ExpenseForm charge={charge} amount={amount} handleAmount={handleAmount} hadleSubmit={hadleSubmit} handleCharge={handleCharge}/>
+        <ExpenseForm charge={charge} amount={amount} handleAmount={handleAmount} handleSubmit={handleSubmit} handleCharge={handleCharge}/>
         <ExpenseList expenses={expenses}/>
       </main>
       <h1>
