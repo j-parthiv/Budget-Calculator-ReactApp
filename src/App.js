@@ -20,7 +20,7 @@ function App() {
       <h1>budget calculator</h1>
       <main className="App">
         <ExpenseForm />
-        <ExpenseList />
+        <ExpenseList expenses={expenses}/>
       </main>
       <h1>
         total spending : {" "}
