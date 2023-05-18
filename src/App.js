@@ -28,14 +28,23 @@ function App() {
  const handleAmount = e =>{
   setAmount(e.target.value);
  }
+
+ const handleAlert = ({type, text}) =>{
+  setAlert({show: true, type, text});
+  setTimeout(()=>{
+    setAlert({show: false})
+  }, 3000)
+ }
+
  const handleSubmit = e =>{
   e.preventDefault();
   if(charge !== " " && amount > 0){
     const singleExpense = {id: uuidv4(), charge, amount};
     setExpenses([...expenses, singleExpense]);
+    handleAlert({type: "success", text: "item added"})
     console.log(expenses);
   }else{
-    // handle alert called
+    handleAlert({type: "danger", text: "some error"})
   }
   setCharge('')
   setAmount('')
