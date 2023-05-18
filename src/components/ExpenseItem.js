@@ -4,6 +4,7 @@ import { MdEdit, MdDelete } from "react-icons/md";
 const ExpenseItem = ({ expense }) => {
   const { id, charge, amount } = expense;
 
+
   return (
     <li className="item">
       <div className="info">
