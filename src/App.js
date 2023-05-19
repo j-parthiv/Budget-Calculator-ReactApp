@@ -59,7 +59,7 @@ function App() {
     setAlert({ show: true, type, text });
     setTimeout(() => {
       setAlert({ show: false });
-    }, 7000);
+    }, 4000);
   };
   // handle submit
   const handleSubmit = (e) => {
@@ -89,16 +89,17 @@ function App() {
   };
   // handle delete
   const handleDelete = (id) => {
-      let tempExpenses = expenses.filter((item) => item.id !== id);
-      setExpenses(tempExpenses);
-      handleAlert({ type: "danger", text: "item deleted" });
+    let tempExpenses = expenses.filter((item) => item.id !== id);
+    setExpenses(tempExpenses);
+    handleAlert({ type: "danger", text: "item deleted" });
   };
   //clear all items
   const clearItems = () => {
     const proceed = window.confirm("Are you sure?");
     if (proceed) {
-    setExpenses([]);
-    }else{
+      setExpenses([]);
+      handleAlert({ type: "danger", text: "all item deleted" });
+    } else {
       return;
     }
   };
