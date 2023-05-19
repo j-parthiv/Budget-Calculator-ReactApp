@@ -5,6 +5,7 @@ import ExpenseForm from "./components/ExpenseForm";
 import ExpenseList from "./components/ExpenseList";
 import { v4 as uuidv4 } from "uuid";
 
+
 const initialExpenses = [
   { id: uuidv4(), charge: "rent", amount: 1600 },
   { id: uuidv4(), charge: "car payment", amount: 400 },
@@ -21,6 +22,10 @@ function App() {
   const [amount, setAmount] = useState("");
   //Alert
   const [alert, setAlert] = useState({ show: false });
+  //edit
+  const [edit, setEdit] = useState(false);
+  // edit item
+  const [id, setId] = useState(0);
   //********* functionality *************
   const handleCharge = (e) => {
     setCharge(e.target.value);
@@ -37,28 +42,46 @@ function App() {
   };
 
   const handleDelete = (id) =>{
-    console.log(id);
+    let tempExpenses = expenses.filter(item => item.id !== id);
+    setExpenses(tempExpenses);
+    handleAlert({type: "danger", text: "item deleted"} )
   }
 
   const handleEdit = (id) =>{
-    console.log(id);
+    let expense = expenses.find(item => item.id === id);
+    let {charge, amount} = expense;
+    setCharge(charge)
+    setAmount(amount)
+    setId(id)
+    setEdit(true)
   }
   const clearItems = () =>{
-    //
+    setExpenses([]);
+    handleAlert({type: "danger", text: "all items deleted"} )
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (charge !== " " && amount > 0) {
+      if(edit){
+        let tempExpenses = expenses.map(item =>{
+          return item.id === id ?  {...item, charge, amount} : item;
+        })
+        console.log(tempExpenses);
+        setExpenses(tempExpenses);
+        setEdit(false);
+        handleAlert({type: "success", text: "item edited"})
+      }else{
       const singleExpense = { id: uuidv4(), charge, amount };
       setExpenses([...expenses, singleExpense]);
       handleAlert({ type: "success", text: "item added" });
       console.log(expenses);
-    } else {
+      }
+      setCharge("");
+      setAmount("");
+   } else {
       handleAlert({ type: "danger", text: "some error" });
     }
-    setCharge("");
-    setAmount("");
   };
 
   return (
@@ -72,6 +95,7 @@ function App() {
           handleAmount={handleAmount}
           handleSubmit={handleSubmit}
           handleCharge={handleCharge}
+          edit={edit}
         />
         <ExpenseList expenses={expenses} handleDelete={handleDelete} handleEdit={handleEdit} clearItems={clearItems}/>
       </main>
