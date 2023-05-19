@@ -16,55 +16,72 @@ function App() {
   //all expenses, add expense
   const [expenses, setExpenses] = useState(initialExpenses);
   //single expense
-  const [charge, setCharge] = useState('')
+  const [charge, setCharge] = useState("");
   //single amount
-  const [amount, setAmount] = useState('')
+  const [amount, setAmount] = useState("");
   //Alert
-  const [alert, setAlert] = useState({show: false})
+  const [alert, setAlert] = useState({ show: false });
   //********* functionality *************
- const handleCharge = e =>{
-  setCharge(e.target.value);
- }
- const handleAmount = e =>{
-  setAmount(e.target.value);
- }
+  const handleCharge = (e) => {
+    setCharge(e.target.value);
+  };
+  const handleAmount = (e) => {
+    setAmount(e.target.value);
+  };
 
- const handleAlert = ({type, text}) =>{
-  setAlert({show: true, type, text});
-  setTimeout(()=>{
-    setAlert({show: false})
-  }, 3000)
- }
+  const handleAlert = ({ type, text }) => {
+    setAlert({ show: true, type, text });
+    setTimeout(() => {
+      setAlert({ show: false });
+    }, 3000);
+  };
 
- const handleSubmit = e =>{
-  e.preventDefault();
-  if(charge !== " " && amount > 0){
-    const singleExpense = {id: uuidv4(), charge, amount};
-    setExpenses([...expenses, singleExpense]);
-    handleAlert({type: "success", text: "item added"})
-    console.log(expenses);
-  }else{
-    handleAlert({type: "danger", text: "some error"})
+  const handleDelete = (id) =>{
+    console.log(id);
   }
-  setCharge('')
-  setAmount('')
- }
+
+  const handleEdit = (id) =>{
+    console.log(id);
+  }
+  const clearItems = () =>{
+    //
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (charge !== " " && amount > 0) {
+      const singleExpense = { id: uuidv4(), charge, amount };
+      setExpenses([...expenses, singleExpense]);
+      handleAlert({ type: "success", text: "item added" });
+      console.log(expenses);
+    } else {
+      handleAlert({ type: "danger", text: "some error" });
+    }
+    setCharge("");
+    setAmount("");
+  };
 
   return (
     <>
-      {alert.show && <Alert type={alert.type} text={alert.text}/>}
+      {alert.show && <Alert type={alert.type} text={alert.text} />}
       <h1>budget calculator</h1>
       <main className="App">
-        <ExpenseForm charge={charge} amount={amount} handleAmount={handleAmount} handleSubmit={handleSubmit} handleCharge={handleCharge}/>
-        <ExpenseList expenses={expenses}/>
+        <ExpenseForm
+          charge={charge}
+          amount={amount}
+          handleAmount={handleAmount}
+          handleSubmit={handleSubmit}
+          handleCharge={handleCharge}
+        />
+        <ExpenseList expenses={expenses} handleDelete={handleDelete} handleEdit={handleEdit} clearItems={clearItems}/>
       </main>
       <h1>
-        total spending : {" "}
+        total spending :{" "}
         <span className="total">
-        ${" "}
-        {expenses.reduce((acc, cur)=>{
-          return acc += parseInt(cur.amount);
-        },0)}
+          ${" "}
+          {expenses.reduce((acc, cur) => {
+            return (acc += parseInt(cur.amount));
+          }, 0)}
         </span>
       </h1>
     </>
